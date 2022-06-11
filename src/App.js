@@ -7,6 +7,7 @@ function App() {
   const dispatch = useDispatch();
   const [id, setId] = useState();
   const posts = useSelector((state) => state.posts.posts);
+  const loading = useSelector((state) => state.posts.loading);
 
   useEffect(() => {
     dispatch(getPosts());
@@ -21,8 +22,8 @@ function App() {
   return (
     <div className="App">
       <h1>Posts</h1>
-      <div>
-        {posts.loading ? (
+      <div className="top-container">
+        {loading ? (
           <div>Loading...</div>
         ) : (
           <div>
@@ -32,16 +33,19 @@ function App() {
           </div>
         )}
       </div>
-
-      <ul>
+      <div className="container ">
         {posts &&
           posts.length &&
           posts?.map((post) => (
-            <li key={post.id} onClick={(id) => setActiveId(post.id)}>
+            <h1
+              className="button"
+              key={post.id}
+              onClick={(id) => setActiveId(post.id)}
+            >
               <h1>{post.id}</h1>
-            </li>
+            </h1>
           ))}
-      </ul>
+      </div>
     </div>
   );
 }
