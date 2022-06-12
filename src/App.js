@@ -2,10 +2,10 @@ import "./App.css";
 import React, { useEffect, useState } from "react";
 import { getPosts, getSinglePost } from "./redux/features/postSlice";
 import { useDispatch, useSelector } from "react-redux";
+import Skeleton, { SkeletonTheme } from "react-loading-skeleton";
 
 function App() {
   const dispatch = useDispatch();
-  const [id, setId] = useState();
   const posts = useSelector((state) => state.posts.posts);
   const loading = useSelector((state) => state.posts.loading);
 
@@ -14,7 +14,6 @@ function App() {
   }, [dispatch]);
 
   const setActiveId = (id) => {
-    setId(id);
     dispatch(getSinglePost(id));
     console.log(id);
   };
@@ -24,19 +23,23 @@ function App() {
       <h1>Posts</h1>
       <div className="top-container">
         {loading ? (
-          <div>Loading...</div>
+          <SkeletonTheme baseColor="#202020" highlightColor="#444">
+            <h1>
+              <Skeleton count={3} />
+            </h1>
+          </SkeletonTheme>
         ) : (
           <div>
-            <h1>{posts.id}</h1>
-            <h1>{posts.name}</h1>
-            <h1>{posts.email}</h1>
+            <h1>Post Id: {posts.id}</h1>
+            <h1>First Name: {posts.first_name}</h1>
+            <h1>E-Mail: {posts.email}</h1>
           </div>
         )}
       </div>
       <div className="container ">
         {posts &&
           posts.length &&
-          posts?.map((post) => (
+          posts.map((post) => (
             <h1
               className="button"
               key={post.id}
@@ -50,4 +53,4 @@ function App() {
   );
 }
 
-export default App;
+export default React.memo(App);
