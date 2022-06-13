@@ -23,9 +23,6 @@ export const postSlice = createSlice({
     getPost: (state, action) => {
       state.posts = action.payload;
     },
-    getSinglePost: (state, action) => {
-      state.posts = action.payload;
-    },
   },
   extraReducers: {
     [getPosts.pending]: (state, action) => {
@@ -39,11 +36,27 @@ export const postSlice = createSlice({
       state.error = action.error;
       state.loading = false;
     },
+  },
+});
+
+export const singlePostSlice = createSlice({
+  name: "singlePost",
+  initialState: {
+    post: [],
+    loading: false,
+    error: null,
+  },
+  reducers: {
+    getSinglePost: (state, action) => {
+      state.post = action.payload;
+    },
+  },
+  extraReducers: {
     [getSinglePost.pending]: (state, action) => {
       state.loading = true;
     },
     [getSinglePost.fulfilled]: (state, action) => {
-      state.posts = action.payload;
+      state.post = action.payload;
       state.loading = false;
     },
     [getSinglePost.rejected]: (state, action) => {
